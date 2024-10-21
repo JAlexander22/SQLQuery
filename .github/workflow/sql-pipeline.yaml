@@ -1,0 +1,31 @@
+name: SQL Query Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  instances : localhost\SQLEXPRESS
+jobs:
+  SQL_Query:
+    runs-on: PHANTOM
+    steps:
+      - uses: actions/checkout@v2
+      - name: SQL Query Test
+        run:  $instance = "${{ env.INSTANCES }}"
+              Write-Host "Adding tables to $instance "
+              # $sqlScriptsFolderPath = ${{ env.FOLDERPATH }}
+              # $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
+              # $DB_List_loc =  ${{ env.DB_LIST_LOC }}
+              # $array = $DB_Names -split " "
+              # Set-Content -Path $DB_List_loc -Value $array
+              # $DBs = Get-Content $DB_List_loc
+
+              
+
+        shell: powershell
