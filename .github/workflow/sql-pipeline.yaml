@@ -13,7 +13,7 @@ env:
   instances: localhost\SQLEXPRESS
 jobs:
   SQL_Query:
-    runs-on: PHANTOM
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - name: SQL Query Test
