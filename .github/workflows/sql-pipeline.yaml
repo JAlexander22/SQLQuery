@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: SQL Query Test
-        run:  $instance = "${{ env.INSTANCES }}"
+        run: |
+              $instance = "${{ env.INSTANCES }}"
               Write-Output "Adding tables to $instance"
               # $sqlScriptsFolderPath = ${{ env.FOLDERPATH }}
               # $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
