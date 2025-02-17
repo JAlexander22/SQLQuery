@@ -11,6 +11,9 @@ on:
 
 env:
   instances: localhost\SQLEXPRESS
+  sql_scripts_folder: "./sql_scripts"
+  db_list_doc: "./db_list.txt"
+  
 jobs:
   SQL_Query:
     runs-on: self-hosted
@@ -18,15 +21,29 @@ jobs:
       - uses: actions/checkout@v2
       - name: SQL Query Test
         run: |
-              $instance = "${{ env.INSTANCES }}"
+              $instance = "${{ env.instances }}"
               Write-Output "Adding tables to $instance"
-              # $sqlScriptsFolderPath = ${{ env.FOLDERPATH }}
-              # $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
-              # $DB_List_loc =  ${{ env.DB_LIST_LOC }}
-              # $array = $DB_Names -split " "
-              # Set-Content -Path $DB_List_loc -Value $array
-              # $DBs = Get-Content $DB_List_loc
+              $sqlScriptsFolderPath = ${{ env.sql_scripts_folder }}
+              $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
+              $DB_List_loc =  ${{ env.db_list_doc }}
+              $array = $DB_Names -split " "
+              Set-Content -Path $DB_List_loc -Value $array
+              $DBs = Get-Content $DB_List_loc
 
-              
-
+              try {
+               Write-Host "Executing script on Environment: "
+               foreach ($DB in $DBs) {
+                 Write-Host "Connecting to SQL Server Database: $DB"
+                 # Loop through each SQL file in the folder
+                 foreach ($sqlFile in $sqlFiles) {   
+                   $sqlFilePath = $sqlFile.FullName
+                   Write-Host "Executing script: $sqlFilePath"
+                   sqlcmd -S $Environment -d $DB -i $sqlFilePath
+                  }
+                 }
+               }
+               catch {
+                Write-Host "Error executing script: $_"
+               }
+          
         shell: powershell
