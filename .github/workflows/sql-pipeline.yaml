@@ -12,7 +12,7 @@ on:
 env:
   instances: localhost\SQLEXPRESS
   sql_scripts_folder: "./sql_scripts"
-  db_list_doc: "./db_list.txt"
+  db_list_doc: "./sql_db.txt"
   
 jobs:
   SQL_Query:
@@ -21,11 +21,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: SQL Query Test
         run: |
-              $instance = "${{ env.instances }}"
+              $instance = "$env:instances"
               Write-Output "Adding tables to $instance"
               $sqlScriptsFolderPath = "$env:sql_scripts_folder"
               $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
-              $DB_List_loc =  ${{ env.db_list_doc }}
+              $DB_List_loc =  $env:db_list_doc"
+
               $array = $DB_Names -split " "
               Set-Content -Path $DB_List_loc -Value $array
               $DBs = Get-Content $DB_List_loc
