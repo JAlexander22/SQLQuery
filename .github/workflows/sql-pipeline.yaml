@@ -23,7 +23,7 @@ jobs:
         run: |
               $instance = "${{ env.instances }}"
               Write-Output "Adding tables to $instance"
-              $sqlScriptsFolderPath = ${{ env.sql_scripts_folder }}
+              $sqlScriptsFolderPath = "$env:sql_scripts_folder"
               $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
               $DB_List_loc =  ${{ env.db_list_doc }}
               $array = $DB_Names -split " "
