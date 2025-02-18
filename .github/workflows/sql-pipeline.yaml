@@ -26,6 +26,7 @@ jobs:
               $sqlScriptsFolderPath = "$env:sql_scripts_folder"
               $sqlFiles = Get-ChildItem -Path $sqlScriptsFolderPath -Filter *.sql
               $DB_List_loc =  "$env:db_list_doc"
+              $DB_Names = "JordansDB"
 
               $array = $DB_Names -split " "
               Set-Content -Path $DB_List_loc -Value $array
@@ -36,7 +37,7 @@ jobs:
                foreach ($DB in $DBs) {
                  Write-Host "Connecting to SQL Server Database: $DB"
                  # Loop through each SQL file in the folder
-                 foreach ($sqlFile in $sqlFiles) {   
+               foreach ($sqlFile in $sqlFiles) {   
                    $sqlFilePath = $sqlFile.FullName
                    Write-Output "Executing script: $sqlFilePath"
                    sqlcmd -S $Environment -d $DB -i $sqlFilePath
