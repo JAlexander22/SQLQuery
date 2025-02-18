@@ -40,7 +40,7 @@ jobs:
                foreach ($sqlFile in $sqlFiles) {   
                    $sqlFilePath = $sqlFile.FullName
                    Write-Output "Executing script: $sqlFilePath"
-                   sqlcmd -S $Environment -d $DB -i $sqlFilePath
+                   sqlcmd -S $instance -d $DB -i $sqlFilePath
                   }
                  }
                }
